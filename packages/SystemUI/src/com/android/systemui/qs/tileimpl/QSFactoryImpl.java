@@ -41,6 +41,7 @@ import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
+import com.android.systemui.qs.tiles.SoundTile;
 import com.android.systemui.qs.tiles.SoundSearchTIle;
 import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ThemeTile;
@@ -84,6 +85,7 @@ public class QSFactoryImpl implements QSFactory {
         else if (tileSpec.equals("theme")) return new ThemeTile(mHost);
         else if (tileSpec.equals("smartpixels")) return new SmartPixelsTile(mHost);
         else if (tileSpec.equals("heads_up")) return new HeadsUpTile(mHost);
+		else if (tileSpec.equals("sound")) return new SoundTile(mHost);
         else if (tileSpec.equals("soundsearch")) return new SoundSearchTIle(mHost);
         // Intent tiles.
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(mHost, tileSpec);
@@ -105,3 +107,4 @@ public class QSFactoryImpl implements QSFactory {
         }
     }
 }
+
