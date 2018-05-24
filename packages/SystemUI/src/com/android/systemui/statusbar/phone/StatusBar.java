@@ -3168,6 +3168,17 @@ public class StatusBar extends SystemUI implements DemoMode,
         return themeInfo != null && themeInfo.isEnabled();
     }
 
+    public boolean isUsingDirtyyyTheme() {
+        OverlayInfo themeInfo = null;
+        try {
+            themeInfo = mOverlayManager.getOverlayInfo("com.android.system.theme.dirtyyy",
+                    mCurrentUserId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return themeInfo != null && themeInfo.isEnabled();
+    }
+
     // Unloads the stock dark theme
     public void unloadStockDarkTheme() {
         ThemeAccentUtils.unloadStockDarkTheme(mOverlayManager, mCurrentUserId);
@@ -5246,6 +5257,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                  Settings.System.SYSTEM_UI_THEME, 0, mCurrentUserId);
         boolean useDarkTheme = false;
         boolean useBlackAFTheme = false;
+        boolean useDirtyyyTheme = false;
         haltTicker();
 
         if (userThemeSetting == 0) {
@@ -5257,6 +5269,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         } else {
             useDarkTheme = userThemeSetting == 2;
             useBlackAFTheme = userThemeSetting == 3;
+            useDirtyyyTheme = userThemeSetting == 4;
             // Check for black and white accent so we don't end up
             // with white on white or black on black
             unfuckBlackWhiteAccent();
@@ -5280,6 +5293,17 @@ public class StatusBar extends SystemUI implements DemoMode,
                 if (useBlackAFTheme) {
                     unloadStockDarkTheme();
                 }
+            } catch (RemoteException e) {
+                Log.w(TAG, "Can't change theme", e);
+            }
+        }
+
+        if (isUsingDirtyyyTheme() != useDirtyyyTheme) {
+            try {
+                mOverlayManager.setEnabled("com.android.system.theme.dirtyyy",
+                        useDirtyyyTheme, mCurrentUserId);
+                mOverlayManager.setEnabled("com.android.settings.theme.dirtyyy",
+                        useDirtyyyTheme, mCurrentUserId);
             } catch (RemoteException e) {
                 Log.w(TAG, "Can't change theme", e);
             }
